@@ -1,0 +1,102 @@
+//                    Basic inheritable styles
+.default-size
+  width: 100%
+  height: 50px
+
+.cursor-pointer
+  cursor: pointer
+
+.basic-font-size
+  font-weight: 500
+  font-size: 16px
+  line-height: 20px
+
+//                     Dropdown styles
+
+// Background style
+.dropdown-container
+  @extend .default-size
+  position: relative
+
+// Button styles
+.dropdown-button
+  @extend .cursor-pointer
+  @extend .basic-font-size
+  @extend .dropdown-container
+  display: block
+  text-align: left
+
+  background: white
+  border: 1px solid #7E9BBD
+  border-radius: 6px
+
+  padding: 10px 35px 10px 20px
+
+  &:focus
+    outline: none
+    box-shadow: 0px 0px 0px 5px rgba(176, 198, 225, 0.6)
+
+  &:after
+    content: ""
+    @extend .arrow--down
+    position: absolute
+    right: 15px
+    top: 45%
+
+.dropdown-list
+  position: absolute
+  width: 100%
+  margin-top: 5px
+  background-color: white
+  box-shadow: 0px 4px 8px rgba(176, 198, 225, 0.6)
+  overflow: hidden
+  border-radius: 5px
+  z-index: 1
+
+.dropdown-list-item
+  @extend .cursor-pointer
+  //border: 1px solid #7E9BBD
+  padding: 13px 20px
+  border-bottom: 0
+
+  &:first-child
+
+    border-radius: 5px 5px 0 0
+
+  &:last-child
+    border-radius: 0 0 5px 5px
+    //border-bottom: 1px solid #7E9BBD
+
+  &:hover
+    background: rgba(176, 198, 225, 0.26)
+
+// Selected items
+.selected-items-container
+  width: 100%
+  display: flex
+
+.selectedItem
+  background: #d6d6d6
+  padding: 5px 25px 5px 5px
+  border-radius: 5px
+  margin-right: 5px
+  position: relative
+  @extend .basic-font-size
+  //color: white
+  //position: relative
+
+
+// Arrow
+.arrow
+  width: 0
+  height: 0
+  border-style: solid
+  border-width: 0 5px 9px 5px
+  border-color: transparent transparent black transparent
+
+.arrow--up
+  @extend .arrow
+
+.arrow--down
+  @extend .arrow
+  transform: rotate(180deg)
