@@ -14,34 +14,45 @@
 //                     Dropdown styles
 
 // Background style
-.dropdown-container
+.dropdown-core
   @extend .default-size
   position: relative
 
-// Button styles
-.dropdown-button
-  @extend .cursor-pointer
-  @extend .basic-font-size
-  @extend .dropdown-container
-  display: block
-  text-align: left
-
-  background: white
+.dropdown-container
+  display: flex
+  justify-items: center
+  justify-content: space-between
   border: 1px solid #7E9BBD
   border-radius: 6px
 
-  padding: 10px 35px 10px 20px
+  //padding: 10px 35px 10px 20px
+
+// Button styles
+.dropdown-button-active
+  background: rgba(176, 198, 225, 0.26)
+
+
+.dropdown-button
+  @extend .cursor-pointer
+  @extend .basic-font-size
+  @extend .dropdown-core
+  display: block
+  text-align: left
+  border: transparent
+
+  background: white
+
 
   &:focus
     outline: none
     box-shadow: 0px 0px 0px 5px rgba(176, 198, 225, 0.6)
 
-  &:after
-    content: ""
-    @extend .arrow--down
-    position: absolute
-    right: 15px
-    top: 45%
+  //&:after
+  //  content: ""
+  //  @extend .arrow--down
+  //  position: absolute
+  //  right: 15px
+  //  top: 45%
 
 .dropdown-list
   position: absolute
@@ -60,7 +71,6 @@
   border-bottom: 0
 
   &:first-child
-
     border-radius: 5px 5px 0 0
 
   &:last-child
@@ -68,7 +78,7 @@
     //border-bottom: 1px solid #7E9BBD
 
   &:hover
-    background: rgba(176, 198, 225, 0.26)
+    @extend .dropdown-button-active
 
 // Selected items
 .selected-items-container

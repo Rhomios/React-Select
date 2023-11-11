@@ -1,39 +1,41 @@
 import React, {useState} from 'react';
 import './Styles/dropdown-styles.sass'
+import DropdownOption from "./DropdownOption";
 const DropdownSelect = ({options, isMultiple = false, Search = false, onSelect}) => {
     const [onHide, setOnHide] = useState(false)             // state of the value list
     const [selectedItems, setSelectedItems] = useState([])    // state of selected items, unique only
 
-    console.log(selectedItems)
+    console.log(selectedItems.filter(x => x === options[0]))
 
     const addSelected = (item) => {
-        setSelectedItems(prevState => ([...prevState, item]))
     }
 
     const removeSelected = (item) => {
-        setSelectedItems(prevState => ([...prevState].filter(d => d !== item)))
     }
 
-    const contains = (value, arr) => {
-        arr.find(value)
-    }
     const performClick = (item) => {
+
         const candidate = selectedItems.filter(i => i === item)
+
         if (candidate.length === 0) {
-            addSelected(item)
+            setSelectedItems(prevState => ([...prevState, item]))
         } else {
-            removeSelected(item)
+            setSelectedItems(prevState => ([...prevState].filter(d => d !== item)))
         }
     }
 
     return (
-        <div className="dropdown-container">
-            <button className="dropdown-button" onClick={() => setOnHide(!onHide)}>
+        <div className="dropdown-core">
+            <div className="dropdown-container">
                 <div className="selected-items-container">
                     {selectedItems.map(i => <div key={i.value} className="selectedItem">{i.value}</div>)}
-
                 </div>
-            </button>
+                <button className="dropdown-button" onClick={() => setOnHide(!onHide)}>
+
+                </button>
+            </div>
+
+
             <div className="dropdown-list" style={{visibility: onHide ? "visible": "hidden"}}>
                 {
                     Search &&
@@ -42,9 +44,9 @@ const DropdownSelect = ({options, isMultiple = false, Search = false, onSelect})
                     </div>
                 }
                 {options.map(i =>
-                    <div key={i.value} className="dropdown-list-item" onClick={() => performClick(i)}>
+                    <DropdownOption key={i.value} onClick={() => performClick(i)} active={selectedItems.filter(x => x === i).length !== 0 && true} >
                         {i.value}
-                    </div>
+                    </DropdownOption>
                 )}
             </div>
 
