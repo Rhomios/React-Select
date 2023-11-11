@@ -26,14 +26,20 @@ const DropdownSelect = ({options, isMultiple = false, Search = false, onSelect})
 
     return (
         <div className="dropdown-core">
-            <div className="dropdown-container">
-                <div className="selected-items-container">
-                    {selectedItems.map(i => <div key={i.value} className="selectedItem">{i.value}</div>)}
+         <button className="dropdown-button" onClick={() => setOnHide(!onHide)}>
+              <div className="selected-items-container">
+                {selectedItems.map((i) => (
+                  <div key={i.value} className="selectedItem">
+                    {i.value}
+                  </div>
+                ))}
+              </div>
+              <div className="selected-items-options">
+                <div className="dropdown-indicator">
+                  <div className="arrow--down" />
                 </div>
-                <button className="dropdown-button" onClick={() => setOnHide(!onHide)}>
-
-                </button>
-            </div>
+              </div>
+            </button>
 
 
             <div className="dropdown-list" style={{visibility: onHide ? "visible": "hidden"}}>
