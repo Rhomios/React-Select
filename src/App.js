@@ -26,7 +26,7 @@ function App() {
           <div style={{height: 200}}>
 
           </div>
-          <DropdownSelect options={array}/>
+          <DropdownSelect options={array} Multiple={true}/>
       </div>
     </div>
   );
