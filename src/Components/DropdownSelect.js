@@ -8,29 +8,35 @@ const DropdownSelect = ({options, isMultiple = false, Search = false, onSelect})
     console.log(selectedItems.filter(x => x === options[0]))
 
     const addSelected = (item) => {
+        setSelectedItems(prevState => ([...prevState, item]))
     }
 
     const removeSelected = (item) => {
+        setSelectedItems(prevState => ([...prevState].filter(d => d !== item)))
     }
 
     const performClick = (item) => {
-
         const candidate = selectedItems.filter(i => i === item)
 
         if (candidate.length === 0) {
-            setSelectedItems(prevState => ([...prevState, item]))
+            addSelected(item)
         } else {
-            setSelectedItems(prevState => ([...prevState].filter(d => d !== item)))
+            removeSelected(item)
         }
     }
 
     return (
-        <div className="dropdown-core">
-         <button className="dropdown-button" onClick={() => setOnHide(!onHide)}>
+        <div className="dropdown-container">
+         <div className="dropdown-button" onClick={() => setOnHide(!onHide)}>
               <div className="selected-items-container">
                 {selectedItems.map((i) => (
-                  <div key={i.value} className="selectedItem">
-                    {i.value}
+                  <div key={i.value} className="selected-item">
+                      <div className="selected-item-value">
+                          {i.value}
+                      </div>
+                      <div className="selected-item-remove-btn" onClick={() => removeSelected(i)}>
+                          <div className="small-x"/>
+                      </div>
                   </div>
                 ))}
               </div>
@@ -39,10 +45,10 @@ const DropdownSelect = ({options, isMultiple = false, Search = false, onSelect})
                   <div className="arrow--down" />
                 </div>
               </div>
-            </button>
+            </div>
 
 
-            <div className="dropdown-list" style={{visibility: onHide ? "visible": "hidden"}}>
+            <div className="dropdown-list-container" style={{visibility: onHide ? "visible": "hidden"}}>
                 {
                     Search &&
                     <div>
