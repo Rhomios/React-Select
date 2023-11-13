@@ -1,26 +1,21 @@
-//                    Basic inheritable styles
 .default-size
   width: 100%
   min-height: 40px
 
-.cursor-pointer
-  cursor: pointer
-
-.basic-font-size
+.basic-font-settings
   font-weight: 500
   font-size: 16px
   line-height: 20px
-
-//                     Dropdown styles
+  font-family: Arial
 
 .dropdown-container
   @extend .default-size
   position: relative
   box-sizing: border-box
 
-.dropdown-default-container
+.dropdown-placeholder
   color: gray
-  @extend .basic-font-size
+  @extend .basic-font-settings
 
 .dropdown-button-active
   background: rgba(176, 198, 225, 0.26)
@@ -33,7 +28,7 @@
   box-sizing: border-box
 
 .dropdown-button
-  @extend .basic-font-size
+  @extend .basic-font-settings
   @extend .dropdown-container
   display: flex
   justify-items: center
@@ -49,7 +44,7 @@
   padding: 8px
   box-sizing: border-box
 
-.dropdown-list-container
+.dropdown-menu-container
   position: absolute
   width: 100%
   margin-top: 5px
@@ -58,21 +53,18 @@
   overflow: hidden
   border-radius: 5px
   z-index: 1
-  max-height: 300px
+  height: 300px
+
+.dropdown-menu-list
+  padding: 5px 5px 5px 5px
+  height: 100%
   overflow-y: auto
 
 .dropdown-list-item
-  @extend .cursor-pointer
+  @extend .basic-font-settings
+  cursor: pointer
   padding: 13px 20px
   border-bottom: 0
-
-  &:first-child
-    border-radius: 5px 5px 0 0
-
-  &:last-child
-    border-radius: 0 0 5px 5px
-    //border-bottom: 1px solid #7E9BBD
-
   &:hover
     @extend .dropdown-button-active
 
@@ -95,7 +87,7 @@
 .selected-item-value
   overflow: hidden
   text-overflow: ellipsis
-  @extend .basic-font-size
+  @extend .basic-font-settings
   padding: 4px 4px 4px 8px
 
 .selected-item-remove-btn
@@ -104,8 +96,7 @@
   padding-left: 4px
   padding-right: 4px
   box-sizing: border-box
-
-  @extend .cursor-pointer
+  cursor: pointer
 
   &:hover
     color: rgba(255, 34, 34, 0.73)
@@ -113,8 +104,21 @@
     border-bottom-right-radius: 6px
     border-top-right-radius: 6px
 
+.selected-items-clear-btn
+  cursor: pointer
+  align-items: center
+  display: flex
+  padding-left: 4px
+  padding-right: 4px
+  box-sizing: border-box
+  color: #6c757d
+  &:hover
+    color: black
+
 .small-x:after
   content: "\d7"
+  font-weight: bold
+  font-size: 15pt
 
 .arrow
   width: 0

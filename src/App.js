@@ -13,9 +13,6 @@ function App() {
       {id: 7, value: "Lithuania"},
       {id: 8, value: "Canada"}
   ]
-    // console.log(selectedItems.has(array[0]))
-    // console.log(selectedItems)
-
 
   return (
     <div className="App">
@@ -26,7 +23,7 @@ function App() {
           <div style={{height: 200}}>
 
           </div>
-          <DropdownSelect options={array} Multiple={true}/>
+          <DropdownSelect options={array}/>
       </div>
     </div>
   );

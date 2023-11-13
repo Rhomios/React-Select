@@ -1,8 +1,15 @@
+.basic-font-settings
+  font-weight: 500
+  font-size: 16px
+  line-height: 20px
+  font-family: Arial
+
 .search-input-container
+  @extend .basic-font-settings
+  margin: 5px
   display: flex
   justify-items: center
   justify-content: space-between
-  //background-color: #d6d6d6
   min-height: 35px
 
 .search-input
@@ -14,6 +21,19 @@
   border: 1px solid #7E9BBD
   border-right: none
 
+.search-clear-btn
+  cursor: pointer
+  border-top: 1px solid #7E9BBD
+  border-bottom: 1px solid #7E9BBD
+  align-items: center
+  display: flex
+  padding-left: 4px
+  padding-right: 4px
+  box-sizing: border-box
+  color: #6c757d
+  &:hover
+    color: black
+
 .search-button
   width: 30px
   outline: none
@@ -24,7 +44,6 @@
   display: flex
   background: #7E9BBD
   border: 1px solid #7E9BBD
-
 
   &:hover
     background: #678599
