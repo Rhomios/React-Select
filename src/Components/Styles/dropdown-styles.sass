@@ -1,27 +1,50 @@
+@use 'select-base'
+//
+$primary-color: #7E9BBD
+//
+//@mixin theme($theme: $primary-color)
+//  background: $theme
+//  box-shadow: 0px 4px 8px rgba($theme, 0.6)
+
+//rgba(176, 198, 225, 0.6)
+
+
 .default-size
   width: 100%
   min-height: 40px
 
-.large-size
+  &.large
+    min-height: 80px
 
+  &.small
+    min-height: 20px
 
 .basic-font-settings
   font-weight: 500
   font-size: 16px
   line-height: 20px
-  font-family: Arial
+  font-family: select-base.$font-stack
+
+  &.large
+    font-size: 36px
+
+  &.small
+    font-size: 10px
 
 .dropdown-container
   @extend .default-size
   position: relative
   box-sizing: border-box
 
+  &:focus
+    outline-color: $primary-color
+
 .dropdown-placeholder
   color: gray
   @extend .basic-font-settings
 
 .dropdown-button-active
-  background: rgba(176, 198, 225, 0.26)
+  background: rgba(176, 198, 225, .25)
 
 .selected-items-options
   align-items: center
@@ -35,12 +58,14 @@
   @extend .dropdown-container
   display: flex
   justify-items: center
-  position: relative
-  box-sizing: border-box
   flex-wrap: wrap
   justify-content: space-between
-  border: 1px solid #7E9BBD
-  border-radius: 6px
+  border: 1px solid $primary-color
+  border-radius: 5px
+  &:focus
+    border: 2px solid $primary-color
+  &:hover
+    border: 2px solid $primary-color
 
 .dropdown-indicator
   display: flex
@@ -86,17 +111,18 @@
 
 .selected-item
   display: flex
-  background: #d6d6d6
+  background: #cbcbcb
   border-radius: 6px
   margin: 3px
 
 .selected-item-value
+  @extend .basic-font-settings
   overflow: hidden
   text-overflow: ellipsis
-  @extend .basic-font-settings
   padding: 4px 4px 4px 8px
 
 .selected-item-remove-btn
+  @extend .basic-font-settings
   align-items: center
   display: flex
   padding-left: 4px
@@ -105,8 +131,8 @@
   cursor: pointer
 
   &:hover
-    color: rgba(255, 34, 34, 0.73)
-    background-color: rgba(255, 34, 34, 0.23)
+    color: #FF2222BA
+    background-color: #FF22223A
     border-bottom-right-radius: 6px
     border-top-right-radius: 6px
 
@@ -117,25 +143,10 @@
   padding-left: 4px
   padding-right: 4px
   box-sizing: border-box
-  color: #6c757d
+  color: gray
   &:hover
     color: black
 
-.small-x:after
-  content: "\d7"
-  font-weight: bold
-  font-size: 15pt
 
-.arrow
-  width: 0
-  height: 0
-  border-style: solid
-  border-width: 0 5px 9px 5px
-  border-color: transparent transparent black transparent
 
-.arrow--up
-  @extend .arrow
 
-.arrow--down
-  @extend .arrow
-  transform: rotate(180deg)

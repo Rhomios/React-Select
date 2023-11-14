@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './Styles/dropdown-styles.sass'
 import SearchInput from "./SearchInput";
-const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, style, ...props}) => {
+const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, size = '', ...props}) => {
     const [optionList, setOptionList] = useState([])          // состояние списка всех опций, нужен для сортировки
     const [selectedItems, setSelectedItems] = useState([])    // состояние списка выбранных опций
     const [isOpen, setIsOpen] = useState(false)             // состояние меню: открыто, закрыто
@@ -76,18 +76,25 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, st
         }
     }
 
+    const onBlurHandler = (e) => {
+        if(!e.currentTarget.contains(e.relatedTarget)) {
+            setIsOpen(false)
+        }
+    }
+
     return (
         <div
+            className={`dropdown-container ${size || ''}`}
             {...props}
             tabIndex={0}
-            onClick={() => setIsOpen(!isOpen)}
-            onBlur={() => setIsOpen(false)}
-            className="dropdown-container"
+            onBlur={e => onBlurHandler(e)}
         >
-         <div className="dropdown-button">
+         <div className={`dropdown-button ${size || ''}`}
+              onClick={() => setIsOpen(!isOpen)}
+         >
              <div className="selected-items-container">
                  {selectedItems.length === 0 &&
-                     <div className="dropdown-placeholder">
+                     <div className={`dropdown-placeholder ${size || ''}`}>
                          Select...
                      </div>
                  }
@@ -95,13 +102,13 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, st
                      <>
                          {selectedItems.map((i) => (
                              <div key={i.value} className="selected-item">
-                                 <div className="selected-item-value">
+                                 <div className={`selected-item-value ${'' || ''}`}>
                                      {i.value}
                                  </div>
-                                 <div className="selected-item-remove-btn"
+                                 <div className={`selected-item-remove-btn ${'' || ''}`}
                                       onClick={e => (removeSelected(i), e.stopPropagation())}
                                  >
-                                     <div className="small-x"/>
+                                     <div className={`remove-sign ${'' || ''}`}/>
                                  </div>
                              </div>
                             )
@@ -117,7 +124,7 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, st
                   <div className="selected-items-clear-btn"
                        onClick={e => (clearSelected(), e.stopPropagation())}
                   >
-                      <div className="small-x"/>
+                      <div className="remove-sign"/>
                   </div>
                 <div className="dropdown-indicator">
                   <div className="arrow--down" />
@@ -128,7 +135,10 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, st
                 <div className="dropdown-menu-container">
                     <ul className="dropdown-menu-options">
                         {Search === true &&
-                            <SearchInput Value={handleSearch} Clear={clearResult}/>
+                            <SearchInput
+                                Value={handleSearch}
+                                Clear={clearResult}
+                            />
                         }
                         {optionList.map(i =>
                             <li
