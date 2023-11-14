@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
-import "./Styles/search-styles.sass"
-import SearchIcon from "../Static/icons8-search.svg"
-const SearchInput = ({Value, Clear, ...props}) => {
-    const [value, setValue] = useState('')
-
+import "./Styles/search-styles.sass";
+import SearchIcon from "../Static/icons8-search.svg";
+interface Props {
+    Value: (value: string) => any;
+    Clear: () => any;
+}
+const SearchInput: React.FC<Props> = ({Value, Clear, ...props}: Props) => {
+    const [value, setValue] = useState<string>('')
     const handleSubmit = () => {
         Value(value)
     }

@@ -1,10 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState, FC, FocusEvent } from 'react';
 import './Styles/dropdown-styles.sass'
 import SearchInput from "./SearchInput";
-const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, size = '', ...props}) => {
-    const [optionList, setOptionList] = useState([])          // состояние списка всех опций, нужен для сортировки
-    const [selectedItems, setSelectedItems] = useState([])    // состояние списка выбранных опций
-    const [isOpen, setIsOpen] = useState(false)             // состояние меню: открыто, закрыто
+
+interface Option {
+    value: string
+}
+
+interface Props {
+    options: Option[];
+    Multiple?: boolean;
+    Search?: boolean;
+    onSelect?: (selectedItems: Option[]) => void;
+    size?: string;
+}
+
+const DropdownSelect: FC<Props> = ({
+   options,
+   Multiple = false,
+   Search = false,
+   onSelect,
+   size = '',
+   ...props}: Props) => {
+    const [optionList, setOptionList] = useState<Option[]>([])          // состояние списка всех опций, нужен для сортировки
+    const [selectedItems, setSelectedItems] = useState<Option[]>([])    // состояние списка выбранных опций
+    const [isOpen, setIsOpen] = useState<boolean>(false)             // состояние меню: открыто, закрыто
 
     // хук, проверяющий если в пропсе options имеются данные и если да, то
     // записываем данные из него в состояние optionList
@@ -25,7 +44,7 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, si
     // функция для поиска опций в списке опций
     // срабатывает если длинна введенного кста не равна нулю
     // каждое поле value ищет по "регулярному выражению"
-    const handleSearch = (searchValue) => {
+    const handleSearch = (searchValue: string) => {
         if (searchValue.length !== 0) {
             const searchRecords = optionList.filter(i => i.value.toString().search(new RegExp(searchValue)) !== -1)
             setOptionList(searchRecords)
@@ -40,7 +59,7 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, si
     // Функция для добавления опции в массив выбранных опций, в качестве аргумента принимает саму опцию
     // проверяет активирован ли у нас пропс Multiple(Множественный), если да - добавляет опцию к предыдущему состоянию
     // иначе перезаписывает состояние эти элементом
-    const addSelected = (item) => {
+    const addSelected = (item: Option) => {
         if (Multiple === true) {
             setSelectedItems(prevState => ([...prevState, item]))
         } else {
@@ -49,7 +68,7 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, si
     }
 
     // удаляет только опцию, переданную в качестве аргумента
-    const removeSelected = (item) => {
+    const removeSelected = (item: Option) => {
         setSelectedItems(prevState => ([...prevState].filter(i => i !== item)))
     }
 
@@ -59,7 +78,7 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, si
     }
 
     // Функция для списка опций, если опция уже есть в массиве выбранных опций - удаляет ее из этого массива, иначе - добавляет.
-    const handleSelection = (item) => {
+    const handleSelection = (item: Option) => {
         if (isInArray(selectedItems, item)) {
             removeSelected(item)
         } else {
@@ -68,7 +87,7 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, si
     }
 
     // Функция для проверки наличия объекта в массиве, в качестве аргументов принимает сам массив и искомый элемент
-    const isInArray = (arr, item) => {
+    const isInArray = (arr: any[], item: any) => {
         if(arr.filter(x => x === item).length !== 0) {
             return true
         } else {
@@ -76,7 +95,7 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, si
         }
     }
 
-    const onBlurHandler = (e) => {
+    const onBlurHandler = (e: FocusEvent) => {
         if(!e.currentTarget.contains(e.relatedTarget)) {
             setIsOpen(false)
         }
@@ -133,13 +152,14 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, si
             </div>
             {isOpen &&
                 <div className="dropdown-menu-container">
+                    {Search &&
+                        <SearchInput
+                            Value={handleSearch}
+                            Clear={clearResult}
+                        />
+                    }
                     <ul className="dropdown-menu-options">
-                        {Search === true &&
-                            <SearchInput
-                                Value={handleSearch}
-                                Clear={clearResult}
-                            />
-                        }
+
                         {optionList.map(i =>
                             <li
                                 key={i.value}
