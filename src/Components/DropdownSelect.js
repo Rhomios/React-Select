@@ -1,22 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import './Styles/dropdown-styles.sass'
-import DropdownOption from "./DropdownOption";
 import SearchInput from "./SearchInput";
-const DropdownSelect = ({options, Multiple = false, Search = false, onSelect}) => {
-    const [onHide, setOnHide] = useState(false)             // state of the value list
-    const [optionList, setOptionList] = useState([])          // state of mutable options
-    const [selectedItems, setSelectedItems] = useState([])    // state of selected items, unique only
+const DropdownSelect = ({options, Multiple = false, Search = false, onSelect, style, ...props}) => {
+    const [optionList, setOptionList] = useState([])          // состояние списка всех опций, нужен для сортировки
+    const [selectedItems, setSelectedItems] = useState([])    // состояние списка выбранных опций
+    const [isOpen, setIsOpen] = useState(false)             // состояние меню: открыто, закрыто
 
-    // useEffect hook for updating optionList state
+    // хук, проверяющий если в пропсе options имеются данные и если да, то
+    // записываем данные из него в состояние optionList
     useEffect(() => {
-        setOptionList(options)
+        if(options.length !== 0){
+            setOptionList(options)
+        }
     }, []);
 
-    //to prevent the execution of the functions of the paternal elements
-    const stopPropagation = (e) => {
-        e.stopPropagation()
-    }
+    // Хук, отслеживающий изменения в массиве выбранных опций, и если у нас активирован пропс-callback onSelect, то
+    // выполняет его передавая в качестве аргумента массив выбранных опций
+    useEffect(() => {
+        if(onSelect) {
+            onSelect(selectedItems)
+        }
+    }, [selectedItems]);
 
+    // функция для поиска опций в списке опций
+    // срабатывает если длинна введенного кста не равна нулю
+    // каждое поле value ищет по "регулярному выражению"
     const handleSearch = (searchValue) => {
         if (searchValue.length !== 0) {
             const searchRecords = optionList.filter(i => i.value.toString().search(new RegExp(searchValue)) !== -1)
@@ -24,53 +32,75 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect}) =
         }
     }
 
+    // очищает результаты поиска
     const clearResult = () => {
         setOptionList(options)
     }
 
+    // Функция для добавления опции в массив выбранных опций, в качестве аргумента принимает саму опцию
+    // проверяет активирован ли у нас пропс Multiple(Множественный), если да - добавляет опцию к предыдущему состоянию
+    // иначе перезаписывает состояние эти элементом
     const addSelected = (item) => {
-        if (Multiple) {
+        if (Multiple === true) {
             setSelectedItems(prevState => ([...prevState, item]))
         } else {
             setSelectedItems([item])
         }
     }
 
+    // удаляет только опцию, переданную в качестве аргумента
     const removeSelected = (item) => {
-        setSelectedItems(prevState => ([...prevState].filter(d => d !== item)))
+        setSelectedItems(prevState => ([...prevState].filter(i => i !== item)))
     }
 
+    // очищает массив выбранных опций
     const clearSelected = () => {
         setSelectedItems([])
     }
 
+    // Функция для списка опций, если опция уже есть в массиве выбранных опций - удаляет ее из этого массива, иначе - добавляет.
     const handleSelection = (item) => {
-        const candidate = selectedItems.filter(i => i === item)
-
-        if (candidate.length === 0) {
-            addSelected(item)
-        } else {
+        if (isInArray(selectedItems, item)) {
             removeSelected(item)
+        } else {
+            addSelected(item)
+        }
+    }
+
+    // Функция для проверки наличия объекта в массиве, в качестве аргументов принимает сам массив и искомый элемент
+    const isInArray = (arr, item) => {
+        if(arr.filter(x => x === item).length !== 0) {
+            return true
+        } else {
+            return false
         }
     }
 
     return (
-        <div className="dropdown-container">
-         <div className="dropdown-button" onClick={() => setOnHide(!onHide)}>
+        <div
+            {...props}
+            tabIndex={0}
+            onClick={() => setIsOpen(!isOpen)}
+            onBlur={() => setIsOpen(false)}
+            className="dropdown-container"
+        >
+         <div className="dropdown-button">
              <div className="selected-items-container">
                  {selectedItems.length === 0 &&
                      <div className="dropdown-placeholder">
                          Select...
                      </div>
                  }
-                 {Multiple ?
+                 {Multiple === true ?
                      <>
                          {selectedItems.map((i) => (
                              <div key={i.value} className="selected-item">
                                  <div className="selected-item-value">
                                      {i.value}
                                  </div>
-                                 <div className="selected-item-remove-btn" onClick={e => (removeSelected(i), stopPropagation(e))}>
+                                 <div className="selected-item-remove-btn"
+                                      onClick={e => (removeSelected(i), e.stopPropagation())}
+                                 >
                                      <div className="small-x"/>
                                  </div>
                              </div>
@@ -84,7 +114,9 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect}) =
                  }
              </div>
               <div className="selected-items-options">
-                  <div className="selected-items-clear-btn" onClick={e => (clearSelected(), stopPropagation(e))}>
+                  <div className="selected-items-clear-btn"
+                       onClick={e => (clearSelected(), e.stopPropagation())}
+                  >
                       <div className="small-x"/>
                   </div>
                 <div className="dropdown-indicator">
@@ -92,18 +124,22 @@ const DropdownSelect = ({options, Multiple = false, Search = false, onSelect}) =
                 </div>
               </div>
             </div>
-            {onHide &&
+            {isOpen &&
                 <div className="dropdown-menu-container">
-                    <div className="dropdown-menu-list">
-                        {Search &&
+                    <ul className="dropdown-menu-options">
+                        {Search === true &&
                             <SearchInput Value={handleSearch} Clear={clearResult}/>
                         }
                         {optionList.map(i =>
-                            <DropdownOption key={i.value} onClick={() => handleSelection(i)} active={selectedItems.filter(x => x === i).length !== 0 && true} >
+                            <li
+                                key={i.value}
+                                onClick={() => handleSelection(i)}
+                                className={`dropdown-option-item ${isInArray(selectedItems, i) && 'dropdown-button-active'}`}
+                            >
                                 {i.value}
-                            </DropdownOption>
+                            </li>
                         )}
-                    </div>
+                    </ul>
                 </div>
             }
         </div>

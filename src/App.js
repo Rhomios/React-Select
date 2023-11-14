@@ -14,17 +14,19 @@ function App() {
       {id: 8, value: "Canada"}
   ]
 
+    const returnItemList = (i) => {
+      console.log(i)
+    }
+
   return (
     <div className="App">
-      <header className="App-header">
+    <div style={{width: 500}}>
+        <DropdownSelect options={array} Multiple={true}/>
+        <DropdownSelect style={{marginTop: 5}} options={array} Search={true}/>
+        <DropdownSelect style={{marginTop: 5}} options={array} Search={true} Multiple={false} onSelect={returnItemList}/>
 
-      </header>
-      <div style={{width: 500, height: 500}}>
-          <div style={{height: 200}}>
+    </div>
 
-          </div>
-          <DropdownSelect options={array}/>
-      </div>
     </div>
   );
 }

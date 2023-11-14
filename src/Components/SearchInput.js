@@ -10,7 +10,7 @@ const SearchInput = ({Value, Clear}) => {
 
     const handleClear = () => {
         setValue('')
-        Clear(value)
+        Clear()
     }
 
     return (
