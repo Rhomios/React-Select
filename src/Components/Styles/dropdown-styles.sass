@@ -35,12 +35,8 @@
   color: gray
   @extend .select-font-settings
 
-  &.info
+  &.info, &.warning
     color: black
-
-  &.warning
-    color: black
-
   &.danger
     color: white
 
@@ -140,9 +136,7 @@
   background: #cbcbcb
   border-radius: 6px
   margin: 3px
-  &.info
-    background: white
-  &.warning
+  &.info, &.warning, &.danger
     background: white
 
 .selected-item-single
@@ -179,17 +173,15 @@
   box-sizing: border-box
   color: gray
 
-  &.info
+  &.info, &.warning
     color: black
   &.danger
     color: white
 
   &:hover
     color: black
-    &.info
+    &.info, &.warning
       color: #494949
-    &.warning
-      color:  black
     &.danger
       color: #d7d7d7
 

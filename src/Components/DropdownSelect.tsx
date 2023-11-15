@@ -10,7 +10,7 @@ interface Props {
     options: Option[];
     Multiple?: boolean;
     Search?: boolean;
-    onSelect?: (selectedItems: Option[]) => void;
+    onSelect?: (selectedItems: Option[] | undefined) => void;
     size?: string;
     variant?: string;
 }
@@ -21,7 +21,7 @@ const DropdownSelect: FC<Props> = ({
    Search = false,
    onSelect,
    size = '',
-   variant = 'info',
+   variant = '',
    ...props}: Props) => {
     const [optionList, setOptionList] = useState<Option[]>([])          // состояние списка всех опций, нужен для сортировки
     const [selectedItems, setSelectedItems] = useState<Option[]>([])    // состояние списка выбранных опций

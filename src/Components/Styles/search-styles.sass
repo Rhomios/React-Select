@@ -8,6 +8,10 @@
   border-top: 1px solid $theme
   border-bottom: 1px solid $theme
 
+@mixin border-right-none($theme: base.$primary-color)
+  border: 1px solid $theme
+  border-right: none
+
 .search-input-container
   @extend .basic-font-settings
   margin: 5px
@@ -15,10 +19,6 @@
   justify-items: center
   justify-content: space-between
   min-height: 35px
-
-@mixin border-right-none($theme: base.$primary-color)
-  border: 1px solid $theme
-  border-right: none
 
 .search-input
   border: transparent
