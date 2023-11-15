@@ -4,8 +4,9 @@ import SearchIcon from "../Static/icons8-search.svg";
 interface Props {
     Value: (value: string) => any;
     Clear: () => any;
+    variant?: string;
 }
-const SearchInput: React.FC<Props> = ({Value, Clear, ...props}: Props) => {
+const SearchInput: React.FC<Props> = ({Value, Clear, variant = '', ...props}: Props) => {
     const [value, setValue] = useState<string>('')
     const handleSubmit = () => {
         Value(value)
@@ -19,20 +20,20 @@ const SearchInput: React.FC<Props> = ({Value, Clear, ...props}: Props) => {
     return (
         <div {...props} className="search-input-container">
             <input
-                className="search-input"
+                className={`search-input ${variant || ''}`}
                 placeholder="Search..."
                 value={value}
                 onChange={e => setValue(e.target.value)}
             />
-            <div className="search-clear-btn"
+            <div className={`search-clear-btn ${variant || ''}`}
                  onClick={() => handleClear()}
             >
                 <div className="remove-sign"/>
             </div>
-            <button className="search-button"
+            <button className={`search-button ${variant || ''}`}
                     onClick={() => handleSubmit()}
             >
-                <img className="search-icon" src={SearchIcon}/>
+                <img className={`search-icon ${variant || ''}`} src={SearchIcon}/>
             </button>
         </div>
     );

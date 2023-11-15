@@ -1,13 +1,8 @@
-@use 'select-base'
-//
-$primary-color: #7E9BBD
-//
-//@mixin theme($theme: $primary-color)
-//  background: $theme
-//  box-shadow: 0px 4px 8px rgba($theme, 0.6)
+@use 'base'
 
-//rgba(176, 198, 225, 0.6)
-
+@mixin theme($theme: base.$primary-color)
+  background-color: $theme
+  border: 1px solid $theme
 
 .default-size
   width: 100%
@@ -19,11 +14,8 @@ $primary-color: #7E9BBD
   &.small
     min-height: 20px
 
-.basic-font-settings
-  font-weight: 500
-  font-size: 16px
-  line-height: 20px
-  font-family: select-base.$font-stack
+.select-font-settings
+  @extend .basic-font-settings
 
   &.large
     font-size: 36px
@@ -37,11 +29,20 @@ $primary-color: #7E9BBD
   box-sizing: border-box
 
   &:focus
-    outline-color: $primary-color
+    outline: none
 
 .dropdown-placeholder
   color: gray
-  @extend .basic-font-settings
+  @extend .select-font-settings
+
+  &.info
+    color: black
+
+  &.warning
+    color: black
+
+  &.danger
+    color: white
 
 .dropdown-button-active
   background: rgba(176, 198, 225, .25)
@@ -54,23 +55,48 @@ $primary-color: #7E9BBD
   box-sizing: border-box
 
 .dropdown-button
-  @extend .basic-font-settings
+  @extend .select-font-settings
   @extend .dropdown-container
   display: flex
   justify-items: center
   flex-wrap: wrap
   justify-content: space-between
-  border: 1px solid $primary-color
+  border: 1px solid base.$primary-color
   border-radius: 5px
+
+  &.info
+    @include theme($theme: base.$info-color)
+  &.warning
+    @include theme($theme: base.$warning-color)
+  &.danger
+    @include theme($theme: base.$danger-color)
+
+
   &:focus
-    border: 2px solid $primary-color
+    border: 2px solid base.$primary-color
+    &.info
+      @include theme($theme: base.$info-color-hover)
+    &.warning
+      @include theme($theme: base.$warning-color-hover)
+    &.danger
+      @include theme($theme: base.$danger-color-hover)
+
   &:hover
-    border: 2px solid $primary-color
+    border: 2px solid base.$primary-color
+    &.info
+      @include theme($theme: base.$info-color-hover)
+    &.warning
+      @include theme($theme: base.$warning-color-hover)
+    &.danger
+      @include theme($theme: base.$danger-color-hover)
 
 .dropdown-indicator
   display: flex
   padding: 8px
   box-sizing: border-box
+  &.danger
+    div
+      color: white
 
 .dropdown-menu-container
   position: absolute
@@ -92,7 +118,7 @@ $primary-color: #7E9BBD
   left: 0
 
 .dropdown-option-item
-  @extend .basic-font-settings
+  @extend .select-font-settings
   cursor: pointer
   padding: 13px 20px
   border-bottom: 0
@@ -114,15 +140,23 @@ $primary-color: #7E9BBD
   background: #cbcbcb
   border-radius: 6px
   margin: 3px
+  &.info
+    background: white
+  &.warning
+    background: white
+
+.selected-item-single
+  &.danger
+    color: white
 
 .selected-item-value
-  @extend .basic-font-settings
+  @extend .select-font-settings
   overflow: hidden
   text-overflow: ellipsis
   padding: 4px 4px 4px 8px
 
 .selected-item-remove-btn
-  @extend .basic-font-settings
+  @extend .select-font-settings
   align-items: center
   display: flex
   padding-left: 4px
@@ -144,8 +178,42 @@ $primary-color: #7E9BBD
   padding-right: 4px
   box-sizing: border-box
   color: gray
+
+  &.info
+    color: black
+  &.danger
+    color: white
+
   &:hover
     color: black
+    &.info
+      color: #494949
+    &.warning
+      color:  black
+    &.danger
+      color: #d7d7d7
+
+.no-options-warning
+  display: flex
+  align-items: center
+  justify-content: center
+  height: 100%
+  color: gray
+  @extend .select-font-settings
+  margin-top: auto
+  font-size: 50px
+
+.arrow-mutable
+  @extend .arrow
+  &.danger
+    border-color: transparent transparent white transparent
+
+.arrow--up
+  @extend .arrow-mutable
+
+.arrow--down
+  @extend .arrow-mutable
+  transform: rotate(180deg)
 
 
 
