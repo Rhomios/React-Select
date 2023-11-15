@@ -3,15 +3,17 @@ import './Styles/dropdown-styles.sass'
 import SearchInput from "./SearchInput";
 
 interface Option {
-    value: string
+    value: string,
+    icon?: string
 }
 
 interface Props {
     options: Option[];
     Multiple?: boolean;
     Search?: boolean;
-    onSelect?: (selectedItems: Option[]) => void;
+    onSelect?: (selectedItems: Option[] | undefined) => void;
     size?: string;
+    variant?: string;
 }
 
 const DropdownSelect: FC<Props> = ({
@@ -20,6 +22,7 @@ const DropdownSelect: FC<Props> = ({
    Search = false,
    onSelect,
    size = '',
+   variant = '',
    ...props}: Props) => {
     const [optionList, setOptionList] = useState<Option[]>([])          // состояние списка всех опций, нужен для сортировки
     const [selectedItems, setSelectedItems] = useState<Option[]>([])    // состояние списка выбранных опций
@@ -108,19 +111,19 @@ const DropdownSelect: FC<Props> = ({
             tabIndex={0}
             onBlur={e => onBlurHandler(e)}
         >
-         <div className={`dropdown-button ${size || ''}`}
+         <div className={`dropdown-button ${size || ''} ${variant || ''} `}
               onClick={() => setIsOpen(!isOpen)}
          >
              <div className="selected-items-container">
                  {selectedItems.length === 0 &&
-                     <div className={`dropdown-placeholder ${size || ''}`}>
+                     <div className={`dropdown-placeholder ${size || ''} ${variant || ''}`}>
                          Select...
                      </div>
                  }
                  {Multiple === true ?
                      <>
                          {selectedItems.map((i) => (
-                             <div key={i.value} className="selected-item">
+                             <div key={i.value} className={`selected-item ${variant || ''}`}>
                                  <div className={`selected-item-value ${'' || ''}`}>
                                      {i.value}
                                  </div>
@@ -134,41 +137,54 @@ const DropdownSelect: FC<Props> = ({
                          )}
                      </>
                      :
-                     <div>
+                     <div className={`selected-item-single ${variant || ''}`}>
                          {selectedItems.length > 0 && `${selectedItems[0].value}`}
                      </div>
                  }
              </div>
               <div className="selected-items-options">
-                  <div className="selected-items-clear-btn"
+                  <div className={`${'selected-items-clear-btn'} ${variant || ''}`}
                        onClick={e => (clearSelected(), e.stopPropagation())}
                   >
                       <div className="remove-sign"/>
                   </div>
-                <div className="dropdown-indicator">
-                  <div className="arrow--down" />
+                <div className={`dropdown-indicator ${variant || ''}`}>
+                  <div className={`arrow--down ${variant || ''}`} />
                 </div>
               </div>
             </div>
             {isOpen &&
                 <div className="dropdown-menu-container">
-                    {Search &&
-                        <SearchInput
-                            Value={handleSearch}
-                            Clear={clearResult}
-                        />
-                    }
                     <ul className="dropdown-menu-options">
-
-                        {optionList.map(i =>
-                            <li
-                                key={i.value}
-                                onClick={() => handleSelection(i)}
-                                className={`dropdown-option-item ${isInArray(selectedItems, i) && 'dropdown-button-active'}`}
-                            >
-                                {i.value}
-                            </li>
-                        )}
+                        {Search &&
+                            <SearchInput
+                                Value={handleSearch}
+                                Clear={clearResult}
+                                variant={variant}
+                            />
+                        }
+                        {optionList.length !== 0 ?
+                            <>
+                            {optionList.map(i =>
+                                <li
+                                    key={i.value}
+                                    onClick={() => handleSelection(i)}
+                                    className={`dropdown-option-item ${isInArray(selectedItems, i) && 'dropdown-button-active'}`}
+                                >
+                                    {i.icon &&
+                                        <div className={'dropdown-option-item-icon-container'}>
+                                            <img className={'dropdown-option-item-icon'} src={i.icon}></img>
+                                        </div>
+                                    }
+                                    <span>{i.value}</span>
+                                </li>
+                            )}
+                            </>
+                            :
+                            <div className={'no-options-warning'}>
+                                No options found
+                            </div>
+                        }
                     </ul>
                 </div>
             }
