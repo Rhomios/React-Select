@@ -3,7 +3,8 @@ import './Styles/dropdown-styles.sass'
 import SearchInput from "./SearchInput";
 
 interface Option {
-    value: string
+    value: string,
+    icon?: string
 }
 
 interface Props {
@@ -170,7 +171,12 @@ const DropdownSelect: FC<Props> = ({
                                     onClick={() => handleSelection(i)}
                                     className={`dropdown-option-item ${isInArray(selectedItems, i) && 'dropdown-button-active'}`}
                                 >
-                                    {i.value}
+                                    {i.icon &&
+                                        <div className={'dropdown-option-item-icon-container'}>
+                                            <img className={'dropdown-option-item-icon'} src={i.icon}></img>
+                                        </div>
+                                    }
+                                    <span>{i.value}</span>
                                 </li>
                             )}
                             </>

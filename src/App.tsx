@@ -4,12 +4,12 @@ import DropdownSelect from "./Components/DropdownSelect";
 function App() {
 
   const array: any[] = [
-    {id: 1, value: "JavaScript"},
-    {id: 2, value: "Php"},
+    {id: 1, value: "JavaScript", icon: "https://cdn.discordapp.com/attachments/496073394983272470/1174172704644010107/icons8-javascript-96.png"},
+    {id: 2, value: "Php", icon: "https://cdn.discordapp.com/attachments/496073394983272470/1174228171030274098/image.png"},
     {id: 3, value: "C#"},
-    {id: 5, value: "Java"},
+    {id: 5, value: "Java", icon: "https://cdn.discordapp.com/attachments/496073394983272470/1174228692810092587/image.png"},
     {id: 6, value: "Python"},
-    {id: 7, value: "Typescript"},
+    {id: 7, value: "Typescript", icon: "https://cdn.discordapp.com/attachments/496073394983272470/1174228452887502918/image.png"},
     {id: 8, value: "SQL"}
   ]
 
