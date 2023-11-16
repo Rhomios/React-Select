@@ -46,10 +46,21 @@ const DropdownSelect: FC<Props> = ({
 
     // функция для поиска опций в списке опций
     // срабатывает если длинна введенного кста не равна нулю
-    // каждое поле value ищет по "регулярному выражению"
+    // каждое поле value ищет по "регулярному выражению", + перевожу строки в нижний регистр, дабы функция гарантировано выполнялась корректно.
     const handleSearch = (searchValue: string) => {
         if (searchValue.length !== 0) {
-            const searchRecords = optionList.filter(i => i.value.toString().search(new RegExp(searchValue)) !== -1)
+            let searchRecords: Option[]
+            searchRecords = optionList.filter(i => i.value.toString().toLowerCase().search(new RegExp(searchValue.toLowerCase())) !== -1)
+            // сортировка запросу, по-большей части нужно чтобы при вводе 'p' впервых рядах выводились значения по типу "php, python и т.д."
+            searchRecords.sort((a: Option, b: Option) => {
+                if (a.value.toLowerCase().startsWith(searchValue.toLowerCase()))  {
+                    return -1
+                } else if (!b.value.toLowerCase().startsWith(searchValue.toLowerCase())) {
+                    return 1
+                } else {
+                    return 0
+                }
+            })
             setOptionList(searchRecords)
         }
     }
@@ -98,6 +109,7 @@ const DropdownSelect: FC<Props> = ({
         }
     }
 
+    // Функция для onBlur, дабы не закрывать меню при потере фокуса при нажатии на внутренние элементы
     const onBlurHandler = (e: FocusEvent) => {
         if(!e.currentTarget.contains(e.relatedTarget)) {
             setIsOpen(false)
@@ -153,18 +165,17 @@ const DropdownSelect: FC<Props> = ({
                 </div>
               </div>
             </div>
-            {isOpen &&
-                <div className="dropdown-menu-container">
-                    <ul className="dropdown-menu-options">
-                        {Search &&
-                            <SearchInput
-                                Value={handleSearch}
-                                Clear={clearResult}
-                                variant={variant}
-                            />
-                        }
-                        {optionList.length !== 0 ?
-                            <>
+            <div className={`dropdown-menu-container ${!isOpen && 'dropdown-menu-container-on-hide'}`}>
+                <ul className="dropdown-menu-options">
+                    {Search &&
+                        <SearchInput
+                            Value={handleSearch}
+                            Clear={clearResult}
+                            variant={variant}
+                        />
+                    }
+                    {optionList.length !== 0 ?
+                        <>
                             {optionList.map(i =>
                                 <li
                                     key={i.value}
@@ -179,15 +190,14 @@ const DropdownSelect: FC<Props> = ({
                                     <span>{i.value}</span>
                                 </li>
                             )}
-                            </>
-                            :
-                            <div className={'no-options-warning'}>
-                                No options found
-                            </div>
-                        }
-                    </ul>
-                </div>
-            }
+                        </>
+                        :
+                        <div className={'no-options-warning'}>
+                            No options found
+                        </div>
+                    }
+                </ul>
+            </div>
         </div>
     );
 };
