@@ -50,7 +50,7 @@ const DropdownSelect: FC<Props> = ({
     const handleSearch = (searchValue: string) => {
         if (searchValue.length !== 0) {
             let searchRecords: Option[]
-            searchRecords = optionList.filter(i => i.value.toString().toLowerCase().search(new RegExp(searchValue.toLowerCase())) !== -1)
+            searchRecords = options.filter(i => i.value.toString().toLowerCase().search(new RegExp(searchValue.toLowerCase())) !== -1)
             // сортировка запросу, по-большей части нужно чтобы при вводе 'p' впервых рядах выводились значения по типу "php, python и т.д."
             searchRecords.sort((a: Option, b: Option) => {
                 if (a.value.toLowerCase().startsWith(searchValue.toLowerCase()))  {
