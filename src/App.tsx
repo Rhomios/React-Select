@@ -24,22 +24,22 @@ function App() {
           <div style={{width: 500, height: '100%', margin: 5}}>
             <div style={{marginTop: 5}}>
               <span style={{fontSize: 24, fontFamily: 'Arial'}}>Селект со множественным выбором:</span>
-              <DropdownSelect options={array} Multiple={true}/>
+              <DropdownSelect options={array} multiple={true}/>
             </div>
             <div style={{marginTop: 5}}>
               <span style={{fontSize: 24, fontFamily: 'Arial', marginTop: 5}}>Селект с поиском:</span>
-              <DropdownSelect options={array} Search={true}/>
+              <DropdownSelect options={array} search={true}/>
             </div>
             <div style={{marginTop: 5}}>
               <span style={{fontSize: 24, fontFamily: 'Arial'}}>Селект с поиском и множественным выбором:</span>
-              <DropdownSelect options={array} Search={true} Multiple={false}/>
+              <DropdownSelect options={array} search={true} multiple={false}/>
             </div>
           </div>
 
           <div style={{width: 500, height: '100%', margin: 5}}>
             <div style={{marginTop: 5}}>
               <span style={{fontSize: 24, fontFamily: 'Arial'}}>Селект size: large</span>
-              <DropdownSelect options={array} Multiple={true} size='large'/>
+              <DropdownSelect options={array} multiple={true} size='large'/>
             </div>
             <div style={{marginTop: 5}}>
               <span style={{fontSize: 24, fontFamily: 'Arial', marginTop: 5}}>Селект size: small</span>
@@ -47,15 +47,15 @@ function App() {
             </div>
             <div style={{marginTop: 5}}>
               <span style={{fontSize: 24, fontFamily: 'Arial'}}>Селект variant: info</span>
-              <DropdownSelect options={array} Search={true} variant='info'/>
+              <DropdownSelect options={array} search={true} variant='info'/>
             </div>
             <div style={{marginTop: 5}}>
               <span style={{fontSize: 24, fontFamily: 'Arial'}}>Селект variant: warning</span>
-              <DropdownSelect options={array} Search={true} variant='warning'/>
+              <DropdownSelect options={array} search={true} variant='warning'/>
             </div>
             <div style={{marginTop: 5}}>
               <span style={{fontSize: 24, fontFamily: 'Arial'}}>Селект variant: danger</span>
-              <DropdownSelect options={array} Search={true} variant='danger'/>
+              <DropdownSelect options={array} search={true} variant='danger'/>
             </div>
           </div>
 
