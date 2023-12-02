@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/React-Select/static/css/main.1742ed13.css",
+    "main.js": "/React-Select/static/js/main.f096d9bb.js",
+    "index.html": "/React-Select/index.html",
+    "static/media/icons8-search.svg": "/React-Select/static/media/icons8-search.aa58904ba67757220d24545b21a52e61.svg",
+    "main.1742ed13.css.map": "/React-Select/static/css/main.1742ed13.css.map",
+    "main.f096d9bb.js.map": "/React-Select/static/js/main.f096d9bb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1742ed13.css",
+    "static/js/main.f096d9bb.js"
+  ]
+}
